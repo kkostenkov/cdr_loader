@@ -25,7 +25,7 @@ records_url = "https://sip.agemas.it-d.it/ITD/getrecord.php"
 max_call_entries = 50 # per POST message
 upload_delay_minutes = 2 # don't upload entries younger than this value
 
-api_key = ""
+api_key = "Enter your secret key here"
 
 parser = OptionParser()
 parser.add_option("--minutes",
