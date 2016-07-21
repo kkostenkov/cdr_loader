@@ -5,7 +5,7 @@ import datetime
 import MySQLdb
 from settings import options as o
 from settings import db_ip, db_login, db_pass, db_name, table_name, \
-                     crm_url, records_url, client_id, upload_delay_minutes
+                     crm_url, records_url, upload_delay_minutes
 
 
 def _get_db_connection():    
@@ -94,5 +94,5 @@ def get_file_url_with_id(full_name):
     # cut the extention
     if record_id.endswith(".mp3") or record_id.endswith(".wav"):
         record_id = record_id[:-4]
-    url =  "%s?client_id=%s&record_id=%s" % (records_url, client_id, record_id)
+    url =  "%s?record_id=%s" % (records_url, record_id)
     return url
