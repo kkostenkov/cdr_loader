@@ -21,6 +21,14 @@ $ python cdr_loader.py --minutes=5 --hours=1
 
 will load all call data from 2 minutes old (setting in settings.py due to our server-side needs) to 65 minutes old.
 
+Provide minimum duration of fetched calls (in minutes) via
+
+--minimum_duration
+
+ex:
+
+$ python cdr_loader.py --minimum_duration=3
+
 
 
 cdr_loader.py uses two modules:
