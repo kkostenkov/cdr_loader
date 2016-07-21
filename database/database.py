@@ -28,7 +28,10 @@ def fetch_calls():
         starttime = convert_datetime(starttime)
     # don't load too fresh entries
     endtime = datetime.datetime.now() - datetime.timedelta(minutes=upload_delay_minutes)
-    
+    # specify minimum duration
+    min_duration = int(o.minimum_duration)
+    if min_duration > 0:
+        print "with minimum duration of fetched calls of %s minutes" % min_duration
     # connect
     connection  = _get_db_connection()
     if connection is None: 
@@ -39,6 +42,8 @@ def fetch_calls():
     columns = ("calldate", "dst", "src", "cnam", "disposition", "duration", "uniqueid", "recordingfile")
     columns_string = ", ".join(columns)
     query = "SELECT %s FROM %s.%s WHERE calldate > '%s' AND calldate < '%s'" % (columns_string, db_name, table_name, starttime, endtime)
+    if min_duration > 0:
+        query += "AND duration >= %s" % (min_duration)
     # execute query
     cursor.execute(query)
     data = cursor.fetchall()

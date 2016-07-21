@@ -40,4 +40,7 @@ parser.add_option("--days",
 parser.add_option("--weeks",
                    default=0,
                   help="Maximum age of entries to fetch from database in weeks. Concatenates with --minutes, --hours, --days") 
+parser.add_option("--minimum_duration",
+                   default=0,
+                  help="Minimum duration of calls to fetch (in minutes)")                           
 options, args = parser.parse_args()  
