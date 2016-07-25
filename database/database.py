@@ -20,7 +20,7 @@ def fetch_calls():
     """
     m, h, d, w = int(o.minutes), int(o.hours), int(o.days), int(o.weeks)
     if m == 0 and h == 0 and d == 0 and w == 0:
-        starttime = 0
+        starttime = datetime.datetime.min
         print "Fetching all data from db"
     else:
         print "Fetching call data %d weeks, %d days, %d hours and %d minutes old maximum" % (w, d, h, m)                      
@@ -45,6 +45,7 @@ def fetch_calls():
     if min_duration > 0:
         query += "AND duration >= %s" % (min_duration)
     # execute query
+    print query
     cursor.execute(query)
     data = cursor.fetchall()
 
