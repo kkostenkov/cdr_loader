@@ -53,7 +53,7 @@ def fetch_calls():
     for calldate, dst, src, cnam, disposition, duration, uniqueid, recordingfile in data:
         call = {}    
         call["date"] = convert_datetime(calldate)    # Date and time of call (Y-m-d H:i:s)
-        if dst > 3:  # destination number more than 3 digits is  an outgoing call !TODO check for internal calls (150 -> 110)
+        if len(dst) > 3:  # destination number more than 3 digits is  an outgoing call !TODO check for internal calls (150 -> 110)
             call["type"] = "out"
             call["phone"] = dst
             call["code"] = src
