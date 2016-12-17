@@ -41,9 +41,11 @@ excludes given names from list of clients to fetch.
 
 ex:
 *$ python cdr_loader.py --clients=one_client,second_client*
+
 will fetch two clients
 
 *$ python cdr_loader.py --exclude=not_paying_client*
+
 will fetch all active clients from database except "not_paying_client"
 
 * --manual_upload 
@@ -52,7 +54,8 @@ Flag for Manual upload of single client. Prevents looking clients in database.
 Gets Client info from settings.py file  "Custom client data" section. No argument needed.
 
 ex:
-*$ python cdr_loader.py --manual_upload *
+
+*$ python cdr_loader.py --manual_upload*
 
 
 
