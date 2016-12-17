@@ -4,7 +4,7 @@
 from optparse import OptionParser
 from data import ClientData
 
-# ____________ Default client data __________________
+# ____________ Custom client data __________________
 name = "default client data"
 db_ip = "localhost"
 db_login = "cdr_fetcher"  # permissions SELECT, UPDATE
@@ -54,5 +54,11 @@ parser.add_option("--clients",
                   help="specify names of clients to upload")      
 parser.add_option("--exclude",
                    default=None,
-                  help="names of clients to ignore")      
+                  help="names of clients to ignore")    
+parser.add_option("--manual_upload",
+                   action="store_true",
+                   dest="manual_upload",
+                   default = False,
+                   help="Use Default client data from settings file instead of database.")                      
+                  
 options, args = parser.parse_args()  
