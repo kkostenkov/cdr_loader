@@ -4,15 +4,23 @@
 from optparse import OptionParser
 from data import DatabaseInfo
 
+# ____________ Default client database info__________________
 db_ip = "localhost"
 db_login = "cdr_fetcher"  # permissions SELECT, UPDATE
 db_pass = "cdr911"
 db_name  = "asteriskcdrdb"
-#db_name  = "cdr"
 table_name = "cdr"
-
 defaultDb = DatabaseInfo(db_ip, db_login, db_pass, db_name, table_name)
 
+# ____________ Default client database info__________________
+db_ip = "localhost"
+db_login = "rcrm"  
+db_pass = "123$qaz"
+db_name  = "rcrm"
+table_name = "clients"
+all_clietns_db = DatabaseInfo(db_ip, db_login, db_pass, db_name, table_name)
+
+# ____________ Retail CRM API  ______________________
 api_path =  "/api/v3/telephony/calls/upload"
 crm_url = "https://agmashop.retailcrm.ru"
 api_url = "".join((crm_url, api_path))
@@ -25,6 +33,7 @@ upload_delay_minutes = 2 # don't upload entries younger than this value
 
 api_key = "Enter your secret key here"
 
+# ____________ Command line args parser __________________
 parser = OptionParser()
 parser.add_option("--minutes",
                    default=0,
