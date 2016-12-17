@@ -2,28 +2,30 @@
 # -*- coding: utf-8 -*-
 
 from optparse import OptionParser
-from data import DatabaseInfo
+from data import ClientData
 
-# ____________ Default client database info__________________
+# ____________ Default client data __________________
 db_ip = "localhost"
 db_login = "cdr_fetcher"  # permissions SELECT, UPDATE
 db_pass = "cdr911"
 db_name  = "asteriskcdrdb"
 default_cdrdb_table_name = "cdr"
-defaultDb = DatabaseInfo(db_ip, db_login, db_pass, db_name, default_cdrdb_table_name)
+api_key = "Enter your secret key here"
+crm_url = "https://agmashop.retailcrm.ru"
+defaultDb = ClientData(db_ip, db_login, db_pass, db_name, default_cdrdb_table_name, api_key, crm_url)
 
-# ____________ Default client database info__________________
+# ____________ Client info database data__________________
 db_ip = "localhost"
 db_login = "rcrm"  
 db_pass = "123$qaz"
 db_name  = "rcrm"
 table_name = "clients"
-all_clietns_db = DatabaseInfo(db_ip, db_login, db_pass, db_name, table_name)
+all_clients_db = ClientData(db_ip, db_login, db_pass, db_name, table_name)
 
 # ____________ Retail CRM API  ______________________
 api_path =  "/api/v3/telephony/calls/upload"
-crm_url = "https://agmashop.retailcrm.ru"
-api_url = "".join((crm_url, api_path))
+
+
 
 client_id = "bffc6f6bbdc14bee86df"  # 20 numbers and digits    
 records_url = "https://sip.agemas.it-d.it/ITD/getrecord.php"
@@ -31,7 +33,7 @@ records_url = "https://sip.agemas.it-d.it/ITD/getrecord.php"
 max_call_entries = 50 # per POST message
 upload_delay_minutes = 2 # don't upload entries younger than this value
 
-api_key = "Enter your secret key here"
+
 
 # ____________ Command line args parser __________________
 parser = OptionParser()

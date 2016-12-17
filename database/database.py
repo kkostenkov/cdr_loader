@@ -69,6 +69,7 @@ def fetch_calls(dbInfo):
         call["recordUrl"] = get_file_url_with_id(recordingfile) # URL to call record
         calls.append(call)    
     connection.close()
+    print "Done."
     return calls
     
 def convert_datetime(datetime):

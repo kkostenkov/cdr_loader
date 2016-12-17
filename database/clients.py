@@ -1,6 +1,6 @@
 import MySQLdb
-from settings import all_clietns_db, default_cdrdb_table_name
-from data import DatabaseInfo
+from settings import all_clients_db, default_cdrdb_table_name
+from data import ClientData
 
 only_active = True
 
@@ -9,18 +9,18 @@ def _get_db_connection(dbInfo):
     db = MySQLdb.connect(host=dbInfo.ip, user=dbInfo.login, passwd=dbInfo.password, db=dbInfo.name, charset="utf8")
     return db
     
-def get_database_for_client(clientName):
+def get_info_for_client(clientName):
     # Create connection
-    connection  = _get_db_connection(all_clietns_db)
+    connection  = _get_db_connection(all_clients_db)
     if connection is None: 
         print "DB connection is none"
         return None
     cursor = connection.cursor()
     
     # compose MySQL query
-    columns = ("mysql_host", "mysql_user", "mysql_pass", "mysql_db")
+    columns = ("mysql_host", "mysql_user", "mysql_pass", "mysql_db", "apikey", "retailcrm_url")
     columns_string = ", ".join(columns)
-    query = "SELECT %s FROM %s.%s WHERE name = '%s'" % (columns_string, all_clietns_db.name, all_clietns_db.table_name, clientName)
+    query = "SELECT %s FROM %s.%s WHERE name = '%s'" % (columns_string, all_clients_db.name, all_clients_db.table_name, clientName)
     # Only active clients?
     if only_active:
         query += " AND active = 1"
@@ -34,24 +34,24 @@ def get_database_for_client(clientName):
         connection.close()
         return
     
-    # populate DatabaseInfo
-    for host, user, passw, db_name in data:
+    # populate ClientData
+    for host, user, passw, db_name, api_key, crm_url in data:
         table_name = default_cdrdb_table_name
-        client_db = DatabaseInfo(host, user, passw, db_name, table_name)
+        client_db = ClientData(host, user, passw, db_name, table_name, api_key, crm_url)
         #print client_db
     connection.close()
     return client_db
     
 def get_known_clinet_names(only_active=False):
     # Create connection
-    connection  = _get_db_connection(all_clietns_db)
+    connection  = _get_db_connection(all_clients_db)
     if connection is None: 
         print "DB connection is none"
         return None
     cursor = connection.cursor()
     
     # compose MySQL query
-    query = "SELECT name FROM %s.%s" % (all_clietns_db.name, all_clietns_db.table_name)
+    query = "SELECT name FROM %s.%s" % (all_clients_db.name, all_clients_db.table_name)
     if only_active:
         query += " WHERE active = 1"
     #print query
@@ -70,10 +70,10 @@ def get_known_clinet_names(only_active=False):
     connection.close()
     return known_names
     
-def get_databases_for_clients(clients):
+def get_infos_of_clients(clients):
     databases = []
     for client in clients:
-        client_db_info = get_database_for_client(client)
+        client_db_info = get_info_for_client(client)
         if client_db_info:
             databases.append(client_db_info)
     return databases

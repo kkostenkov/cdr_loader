@@ -3,16 +3,26 @@
 
 import json, time
 import requests
-from settings import api_key, api_url, max_call_entries
+from settings import api_path, max_call_entries
 
-def upload_calls(calls):
+def upload_calls(calls, api_key, retailcrm_url):
     """ via using not standard lib """
+    print "Uploading..."
+    if calls is None:
+        print "No calls to upload were given"
+        return
     # divide by groups of acceptable length
     call_groups = list((calls[i:i+max_call_entries] for i in range(0,len(calls),max_call_entries)))
     # send each group
     for group in call_groups:
-        response = send_call_group(group)
+        response = send_call_group(group, api_key, retailcrm_url)
+        if response is None:
+            print "No response from api. Skipping."
+            return
         code = response.status_code
+        if code == 404: 
+            print "Error!!! 404 NonFound %s \n Try to remove trailing slashes" % (retailcrm_url)
+            return
         if code == 200: 
             print str(len(group)) + " calls sent successfully"
             continue
@@ -29,17 +39,23 @@ def upload_calls(calls):
         # In case something went wrong:
         print(response)
         
-def send_call_group(call_group):
+def send_call_group(call_group, api_key, crm_url):
     calls_json = json.dumps(call_group)
     data = {"apiKey": api_key,
             "calls": calls_json,
             }
-    response = requests.post(api_url, data)
+    api_url = "".join((crm_url, api_path))
+    try:
+        response = requests.post(api_url, data)
+    except Exception:
+        print "ERROR!!! Unhandeled exception: %s" % (Exception.message)
+        print "Url was: %s" % (api_url)
+        response = None
     return response
     
             
         
-def get_request_example():
+def get_request_example(api_key):
     import requests
     from  settings import crm_url
     url = "/api/v3/telephony/manager"
