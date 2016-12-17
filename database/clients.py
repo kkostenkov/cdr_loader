@@ -66,7 +66,7 @@ def get_known_clinet_names(only_active=False):
         return
         
     known_names = [name[0] for name in data]
-    print known_names
+    #print known_names
     connection.close()
     return known_names
     

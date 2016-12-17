@@ -50,4 +50,10 @@ parser.add_option("--weeks",
 parser.add_option("--minimum_duration",
                    default=0,
                   help="Minimum duration of calls to fetch (in minutes)")                           
+parser.add_option("--clients",
+                   default=None,
+                  help="specify names of clients to upload")      
+parser.add_option("--exclude",
+                   default=None,
+                  help="names of clients to ignore")      
 options, args = parser.parse_args()  

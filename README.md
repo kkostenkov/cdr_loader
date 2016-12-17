@@ -30,6 +30,21 @@ ex:
 $ python cdr_loader.py --minimum_duration=3
 
 
+--clients
+uses given names as list to fetch from database. If not specified - fetches all known active clients.
+!No spaces in names allowed!
+
+--exclude
+excludes given names from list of clients to fetch.
+!No spaces in names allowed!
+
+ex:
+$ python cdr_loader.py --clients=one_client,second_client
+will fetch two clients
+
+$ python cdr_loader.py --exclude=not_paying_client
+will fetch all active clients from database except "not_paying_client"
+
 
 cdr_loader.py uses two modules:
 
