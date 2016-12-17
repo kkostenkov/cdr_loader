@@ -32,9 +32,11 @@ def fetch_calls(dbInfo):
     if min_duration > 0:
         print "with minimum duration of fetched calls of %s minutes" % min_duration
     # connect
-    connection  = _get_db_connection(dbInfo)
-    if connection is None: 
-        print "DB connection is none"
+    try:
+        connection  = _get_db_connection(dbInfo)
+    except Exception:
+        print "ERROR!! DB connection is none! Data was:"
+        print dbInfo
         return None
     cursor = connection.cursor()
     # compose MySQL query

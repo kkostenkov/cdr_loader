@@ -9,8 +9,8 @@ db_ip = "localhost"
 db_login = "cdr_fetcher"  # permissions SELECT, UPDATE
 db_pass = "cdr911"
 db_name  = "asteriskcdrdb"
-table_name = "cdr"
-defaultDb = DatabaseInfo(db_ip, db_login, db_pass, db_name, table_name)
+default_cdrdb_table_name = "cdr"
+defaultDb = DatabaseInfo(db_ip, db_login, db_pass, db_name, default_cdrdb_table_name)
 
 # ____________ Default client database info__________________
 db_ip = "localhost"
