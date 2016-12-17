@@ -4,16 +4,15 @@
 import datetime
 import MySQLdb
 from settings import options as o
-from settings import db_ip, db_login, db_pass, db_name, table_name, \
-                     crm_url, records_url, upload_delay_minutes
+from settings import records_url, upload_delay_minutes
 
 
-def _get_db_connection():    
+def _get_db_connection(dbInfo):    
     """ Returns connection or states error"""
-    db = MySQLdb.connect(host=db_ip, user=db_login, passwd=db_pass, db=db_name, charset="utf8")
+    db = MySQLdb.connect(host=dbInfo.ip, user=dbInfo.login, passwd=dbInfo.password, db=dbInfo.name, charset="utf8")
     return db
 
-def fetch_calls():        
+def fetch_calls(dbInfo):        
     """ 
     Retrieves calls from database. If script options (--minutes, --hours,
     --days, --weeks) provided - uses them as maximum age of calls to fetch. 
@@ -33,7 +32,7 @@ def fetch_calls():
     if min_duration > 0:
         print "with minimum duration of fetched calls of %s minutes" % min_duration
     # connect
-    connection  = _get_db_connection()
+    connection  = _get_db_connection(dbInfo)
     if connection is None: 
         print "DB connection is none"
         return None
@@ -41,7 +40,7 @@ def fetch_calls():
     # compose MySQL query
     columns = ("calldate", "dst", "src", "cnam", "disposition", "duration", "uniqueid", "recordingfile")
     columns_string = ", ".join(columns)
-    query = "SELECT %s FROM %s.%s WHERE calldate > '%s' AND calldate < '%s'" % (columns_string, db_name, table_name, starttime, endtime)
+    query = "SELECT %s FROM %s.%s WHERE calldate > '%s' AND calldate < '%s'" % (columns_string, dbInfo.name, dbInfo.table_name, starttime, endtime)
     if min_duration > 0:
         query += "AND duration >= %s" % (min_duration)
     # execute query
