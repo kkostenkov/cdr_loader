@@ -15,7 +15,7 @@ clients = get_client_names()
 print "Clients to process: %s" % (clients)
 client_infos = get_infos_of_clients(clients)
 for info in client_infos: 
-    print "____________Client %s__________" % (info.ip)
+    print "____________Client %s__________" % (info.name)
     calls = fetch_calls(info)
     #print_fetched(calls)
     upload_calls(calls, info.api_key, info.retailcrm_url)

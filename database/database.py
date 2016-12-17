@@ -9,7 +9,7 @@ from settings import records_url, upload_delay_minutes
 
 def _get_db_connection(dbInfo):    
     """ Returns connection or states error"""
-    db = MySQLdb.connect(host=dbInfo.ip, user=dbInfo.login, passwd=dbInfo.password, db=dbInfo.name, charset="utf8")
+    db = MySQLdb.connect(host=dbInfo.ip, user=dbInfo.login, passwd=dbInfo.password, db=dbInfo.db_name, charset="utf8")
     return db
 
 def fetch_calls(dbInfo):        
@@ -42,7 +42,7 @@ def fetch_calls(dbInfo):
     # compose MySQL query
     columns = ("calldate", "dst", "src", "cnam", "disposition", "duration", "uniqueid", "recordingfile")
     columns_string = ", ".join(columns)
-    query = "SELECT %s FROM %s.%s WHERE calldate > '%s' AND calldate < '%s'" % (columns_string, dbInfo.name, dbInfo.table_name, starttime, endtime)
+    query = "SELECT %s FROM %s.%s WHERE calldate > '%s' AND calldate < '%s'" % (columns_string, dbInfo.db_name, dbInfo.table_name, starttime, endtime)
     if min_duration > 0:
         query += "AND duration >= %s" % (min_duration)
     # execute query

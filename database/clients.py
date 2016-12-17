@@ -6,7 +6,7 @@ only_active = True
 
 def _get_db_connection(dbInfo):    
     """ Returns connection or states error"""
-    db = MySQLdb.connect(host=dbInfo.ip, user=dbInfo.login, passwd=dbInfo.password, db=dbInfo.name, charset="utf8")
+    db = MySQLdb.connect(host=dbInfo.ip, user=dbInfo.login, passwd=dbInfo.password, db=dbInfo.db_name, charset="utf8")
     return db
     
 def get_info_for_client(clientName):
@@ -20,7 +20,7 @@ def get_info_for_client(clientName):
     # compose MySQL query
     columns = ("mysql_host", "mysql_user", "mysql_pass", "mysql_db", "apikey", "retailcrm_url")
     columns_string = ", ".join(columns)
-    query = "SELECT %s FROM %s.%s WHERE name = '%s'" % (columns_string, all_clients_db.name, all_clients_db.table_name, clientName)
+    query = "SELECT %s FROM %s.%s WHERE name = '%s'" % (columns_string, all_clients_db.db_name, all_clients_db.table_name, clientName)
     # Only active clients?
     if only_active:
         query += " AND active = 1"
@@ -37,7 +37,7 @@ def get_info_for_client(clientName):
     # populate ClientData
     for host, user, passw, db_name, api_key, crm_url in data:
         table_name = default_cdrdb_table_name
-        client_db = ClientData(host, user, passw, db_name, table_name, api_key, crm_url)
+        client_db = ClientData(clientName, host, user, passw, db_name, table_name, api_key, crm_url)
         #print client_db
     connection.close()
     return client_db
@@ -51,7 +51,7 @@ def get_known_clinet_names(only_active=False):
     cursor = connection.cursor()
     
     # compose MySQL query
-    query = "SELECT name FROM %s.%s" % (all_clients_db.name, all_clients_db.table_name)
+    query = "SELECT name FROM %s.%s" % (all_clients_db.db_name, all_clients_db.table_name)
     if only_active:
         query += " WHERE active = 1"
     #print query

@@ -5,6 +5,7 @@ from optparse import OptionParser
 from data import ClientData
 
 # ____________ Default client data __________________
+name = "default client data"
 db_ip = "localhost"
 db_login = "cdr_fetcher"  # permissions SELECT, UPDATE
 db_pass = "cdr911"
@@ -12,27 +13,23 @@ db_name  = "asteriskcdrdb"
 default_cdrdb_table_name = "cdr"
 api_key = "Enter your secret key here"
 crm_url = "https://agmashop.retailcrm.ru"
-defaultDb = ClientData(db_ip, db_login, db_pass, db_name, default_cdrdb_table_name, api_key, crm_url)
+defaultDb = ClientData(name, db_ip, db_login, db_pass, db_name, default_cdrdb_table_name, api_key, crm_url)
 
 # ____________ Client info database data__________________
+name = "All client's database info"
 db_ip = "localhost"
 db_login = "rcrm"  
 db_pass = "123$qaz"
 db_name  = "rcrm"
 table_name = "clients"
-all_clients_db = ClientData(db_ip, db_login, db_pass, db_name, table_name)
+all_clients_db = ClientData(name, db_ip, db_login, db_pass, db_name, table_name, api_key=None, crm_url=None)
 
 # ____________ Retail CRM API  ______________________
 api_path =  "/api/v3/telephony/calls/upload"
-
-
-
-client_id = "bffc6f6bbdc14bee86df"  # 20 numbers and digits    
 records_url = "https://sip.agemas.it-d.it/ITD/getrecord.php"
 
 max_call_entries = 50 # per POST message
 upload_delay_minutes = 2 # don't upload entries younger than this value
-
 
 
 # ____________ Command line args parser __________________
