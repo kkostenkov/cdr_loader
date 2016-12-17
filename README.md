@@ -7,47 +7,53 @@ Running it without arguments will upload all data from database.
 
 Available arguments are maximum age of entries to fetch from database. Concatenates with each other.
 
---minutes 
+* --minutes 
 
---hours
+* --hours
 
---days
+* --days
 
---weeks
+* --weeks
 
 For example:
 
-$ python cdr_loader.py --minutes=5 --hours=1
+*$ python cdr_loader.py --minutes=5 --hours=1*
 
 will load all call data from 2 minutes old (setting in settings.py due to our server-side needs) to 65 minutes old.
 
 Provide minimum duration of fetched calls (in minutes) via
 
---minimum_duration
+* --minimum_duration
 
 ex:
 
-$ python cdr_loader.py --minimum_duration=3
+*$ python cdr_loader.py --minimum_duration=3*
 
 
---clients
+* --clients
+
 uses given names as list to fetch from database. If not specified - fetches all known active clients.
 !No spaces in names allowed!
 
---exclude
+* --exclude
 excludes given names from list of clients to fetch.
 !No spaces in names allowed!
 
 ex:
-$ python cdr_loader.py --clients=one_client,second_client
+*$ python cdr_loader.py --clients=one_client,second_client*
 will fetch two clients
 
-$ python cdr_loader.py --exclude=not_paying_client
+*$ python cdr_loader.py --exclude=not_paying_client*
 will fetch all active clients from database except "not_paying_client"
 
---manual_upload 
+* --manual_upload 
+
 Flag for Manual upload of single client. Prevents looking clients in database.
-Gets Client info from settings.py file  "Custom client data" section
+Gets Client info from settings.py file  "Custom client data" section. No argument needed.
+
+ex:
+*$ python cdr_loader.py --manual_upload *
+
 
 
 cdr_loader.py uses two modules:
