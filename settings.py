@@ -1,19 +1,17 @@
 #!usr/bin/python
 # -*- coding: utf-8 -*-
 
-from commands import getoutput as bash
 from optparse import OptionParser
+from data import DatabaseInfo
 
 db_ip = "localhost"
 db_login = "cdr_fetcher"  # permissions SELECT, UPDATE
-#find_user = "cat /etc/asterisk/cdr_mysql.conf|grep user$"
-#db_login = bash(find_user)[7:]
-#find_passw = 'cat /etc/asterisk/cdr_mysql.conf|grep password'
 db_pass = "cdr911"
-#db_pass = bash(find_passw)
 db_name  = "asteriskcdrdb"
 #db_name  = "cdr"
 table_name = "cdr"
+
+defaultDb = DatabaseInfo(db_ip, db_login, db_pass, db_name, table_name)
 
 api_path =  "/api/v3/telephony/calls/upload"
 crm_url = "https://agmashop.retailcrm.ru"
