@@ -2,8 +2,6 @@ import MySQLdb
 from settings import all_clients_db, default_cdrdb_table_name
 from data import ClientData
 
-only_active = True
-
 def _get_db_connection(dbInfo):    
     """ Returns connection or states error"""
     db = MySQLdb.connect(host=dbInfo.ip, user=dbInfo.login, passwd=dbInfo.password, db=dbInfo.db_name, charset="utf8")
@@ -42,7 +40,7 @@ def get_info_for_client(clientName):
     connection.close()
     return client_db
     
-def get_known_clinet_names(only_active=False):
+def get_known_clinet_names(only_nonblocked=True):
     # Create connection
     connection  = _get_db_connection(all_clients_db)
     if connection is None: 
@@ -52,8 +50,8 @@ def get_known_clinet_names(only_active=False):
     
     # compose MySQL query
     query = "SELECT name FROM %s.%s" % (all_clients_db.db_name, all_clients_db.table_name)
-    if only_active:
-        query += " WHERE active = 1"
+    if only_nonblocked:
+        query += " WHERE blocked = 0"
     #print query
     # execute query
     cursor.execute(query)

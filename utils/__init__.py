@@ -9,7 +9,7 @@ def get_client_names():
     names_to_fetch = []
     if o.clients is None:
         # fetch all clients from db
-        given_names = get_known_clinet_names(only_active=True)
+        given_names = get_known_clinet_names(only_nonblocked=True)
     else:
         given_names = o.clients.split(",")
     names_to_fetch = given_names
