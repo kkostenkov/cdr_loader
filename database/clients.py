@@ -19,9 +19,6 @@ def get_info_for_client(clientName):
     columns = ("mysql_host", "mysql_user", "mysql_pass", "mysql_db", "apikey", "retailcrm_url")
     columns_string = ", ".join(columns)
     query = "SELECT %s FROM %s.%s WHERE name = '%s'" % (columns_string, all_clients_db.db_name, all_clients_db.table_name, clientName)
-    # Only active clients?
-    if only_active:
-        query += " AND active = 1"
     # execute query
     #print query
     cursor.execute(query)
