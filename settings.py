@@ -25,7 +25,7 @@ table_name = "clients"
 all_clients_db = ClientData(name, db_ip, db_login, db_pass, db_name, table_name, api_key=None, crm_url=None)
 
 # ____________ Retail CRM API  ______________________
-api_path =  "/api/v3/telephony/calls/upload"
+api_path =  "/api/v4/telephony/calls/upload"
 records_url = "https://sip.agemas.it-d.it/ITD/getrecord.php"
 
 max_call_entries = 50 # per POST message
