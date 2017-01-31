@@ -2,3 +2,7 @@
 # Compiled
 
 *.pyc
+
+# Logs
+
+*.log

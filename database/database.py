@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import datetime
+import logging
 import MySQLdb
 from settings import options as o
 from settings import records_url, upload_delay_minutes
@@ -17,12 +18,15 @@ def fetch_calls(dbInfo):
     Retrieves calls from database. If script options (--minutes, --hours,
     --days, --weeks) provided - uses them as maximum age of calls to fetch. 
     """
+    logging.info("Fetching calls.")
     m, h, d, w = int(o.minutes), int(o.hours), int(o.days), int(o.weeks)
     if m == 0 and h == 0 and d == 0 and w == 0:
         starttime = datetime.datetime.min
-        print "Fetching all data from db"
+        #print "Fetching all data from db"
+        logging.debug("Fetching all data from db")
     else:
-        print "Fetching call data %d weeks, %d days, %d hours and %d minutes old maximum" % (w, d, h, m)                      
+        #print "Fetching call data %d weeks, %d days, %d hours and %d minutes old maximum" % (w, d, h, m)                      
+        logging.debug("Fetching call data %d weeks, %d days, %d hours and %d minutes old maximum" % (w, d, h, m))
         starttime = datetime.datetime.now() - datetime.timedelta(minutes=m, hours=h, days=d, weeks=w)
         starttime = convert_datetime(starttime)
     # don't load too fresh entries
@@ -30,13 +34,12 @@ def fetch_calls(dbInfo):
     # specify minimum duration
     min_duration = int(o.minimum_duration)
     if min_duration > 0:
-        print "with minimum duration of fetched calls of %s minutes" % min_duration
+        logging.debug("with minimum duration of fetched calls of %s minutes" % min_duration)
     # connect
     try:
         connection  = _get_db_connection(dbInfo)
     except Exception:
-        print "ERROR!! DB connection is none! Data was:"
-        print dbInfo
+        logging.exception("ERROR!! DB connection is none! Data was: %s", dbInfo)
         return None
     cursor = connection.cursor()
     # compose MySQL query
@@ -46,7 +49,7 @@ def fetch_calls(dbInfo):
     if min_duration > 0:
         query += "AND duration >= %s" % (min_duration)
     # execute query
-    print query
+    logging.debug(query)
     cursor.execute(query)
     data = cursor.fetchall()
 
@@ -69,7 +72,8 @@ def fetch_calls(dbInfo):
         call["recordUrl"] = get_file_url_with_id(recordingfile) # URL to call record
         calls.append(call)    
     connection.close()
-    print "Done."
+    logging.info("Done fetching.")
+    logging.debug("fetched calls: %s", calls)
     return calls
     
 def convert_datetime(datetime):
