@@ -57,6 +57,30 @@ ex:
 
 *$ python cdr_loader.py --manual_upload*
 
+* -d 
+
+Flag for debug mode of logging. Writes some more service messages to log file
+
+ex:
+
+*$ python cdr_loader.py -d*
+
+* --logfile 
+
+Custom name for logfile.
+
+ex:
+
+*$ python cdr_loader.py --logfile=my_awesome_logfile.ext*
+
+* --execution_timelimit 
+
+If specified - sets timelimit in seconds for script to finish it's tasks. 
+In case of exceeding this limit, the script will stop and backup it's logfile.
+
+ex:
+
+*$ python cdr_loader.py --execution_timelimit=9999*
 
 
 cdr_loader.py uses two modules:
