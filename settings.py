@@ -60,5 +60,16 @@ parser.add_option("--manual_upload",
                    dest="manual_upload",
                    default = False,
                    help="Use Default client data from settings file instead of database.")                      
-                  
+parser.add_option("--execution_timelimit",
+                   default=0,
+                  help="Maximum limit for script execution time (in seconds)")      
+parser.add_option("--logfile",
+                   default="general.log",
+                  help="Custom name of logfile")   
+parser.add_option("-d",
+                   action="store_true",
+                   dest="debug_mode",
+                   default = False,
+                   help="Run in debug logging mode.")                          
+                   
 options, args = parser.parse_args()  

@@ -1,6 +1,10 @@
 import logging
+import os
+import shutil
 from settings import options as o
 from database.clients import get_known_clinet_names
+
+from time import gmtime, strftime
 
 """ 
 Parses names from command line args. If none given - fetches all names from DB.
@@ -27,11 +31,35 @@ def get_client_names():
     logging.info("fetching %s clients" , len(names_to_fetch))
     return names_to_fetch
     
-    
+
+def setup_logging():
+    if o.debug_mode:
+        use_debug_logging()
+    else:
+        use_general_log()
+   
 def use_debug_logging():
-    logging.basicConfig(filename='debug.log', 
+    logging.basicConfig(filename=o.logfile,
                     filemode='w', 
                     format='%(asctime)s %(levelname)s:%(message)s', 
                     datefmt='%d/%m/%Y %H:%M:%S',
                     level=logging.DEBUG
                     )
+    logging.info("Logging mode: DEBUG")
+
+def use_general_log():
+    logging.basicConfig(filename=o.logfile, 
+                    filemode='w',    # if uncommented - rewrites file each time
+                    level=logging.INFO,
+                    format='%(asctime)s %(levelname)s:%(message)s', 
+                    datefmt='%d/%m/%Y %H:%M:%S',
+                    )
+    logging.info("Logging mode: INFO")
+                    
+def backup_log_file():
+    logging.info("Backing up logfile")
+    logs_folder = "logs"
+    filename =  strftime("%Y-%m-%d-%H_%M_%S", gmtime())+".log"
+    endfile = os.getcwd() + os.sep + logs_folder + os.sep + filename
+    shutil.copyfile(o.logfile, endfile)
+    
